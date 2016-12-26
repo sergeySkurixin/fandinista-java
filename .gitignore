@@ -1,0 +1,8 @@
+# Ignore everything under .idea folder.
+.idea/
+
+# Ignore .iml files.
+*.iml
+
+# Ignore installed bower components. Follow the instructions in README to install this components.
+src/main/webapp/resources/bower_components/
