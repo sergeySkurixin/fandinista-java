@@ -11,4 +11,4 @@ target/
 src/main/webapp/resources/bower_components/
 
 # Ignore db properties.
-src/main/resources/jdbc.*.properties
+src/main/resources/jdbc.prod.properties
