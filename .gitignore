@@ -1,3 +1,6 @@
+# Ignore everything under target folder.
+target/
+
 # Ignore everything under .idea folder.
 .idea/
 
@@ -6,3 +9,6 @@
 
 # Ignore installed bower components. Follow the instructions in README to install this components.
 src/main/webapp/resources/bower_components/
+
+# Ignore db properties.
+src/main/resources/jdbc.*.properties
