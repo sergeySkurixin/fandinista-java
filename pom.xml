@@ -82,7 +82,7 @@
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
-            <version>4.0.3</version>
+            <version>${flyway.version}</version>
         </dependency>
         <!-- Mapper -->
         <dependency>
@@ -126,6 +126,7 @@
         <dbcp.version>2.1.1</dbcp.version>
         <hibernate.version>5.2.5.Final</hibernate.version>
         <spring.data.version>1.10.6.RELEASE</spring.data.version>
+        <flyway.version>4.0.3</flyway.version>
         <orika.version>1.5.0</orika.version>
         <slf4j.version>1.7.21</slf4j.version>
         <junit.version>4.12</junit.version>
