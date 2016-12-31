@@ -51,6 +51,7 @@ public class FandinistaDbConfig {
     public Flyway flyway(DataSource dataSource) {
         Flyway flyway = new Flyway();
         flyway.setDataSource(dataSource);
+        // если надо удалить все миграции, сначала можно вызвать flyway.clean();
         flyway.migrate();
         return flyway;
     }
