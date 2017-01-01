@@ -7,12 +7,13 @@ import java.util.List;
  * Jpa entity для места проведения концертов.
  */
 @Entity
-@Table(name = "STAGES")
-public class StageEntity {
+@Table(name = "PLACES")
+public class PlaceEntity {
 
     private Long id;
     private String name;
     private String passwordDigest;
+    private String rememberToken;
     private Long rating;
     private List<FanEntity> followers;
 
@@ -43,6 +44,15 @@ public class StageEntity {
 
     public void setPasswordDigest(String passwordDigest) {
         this.passwordDigest = passwordDigest;
+    }
+
+    @Column(name = "REMEMBER_TOKEN", nullable = false)
+    public String getRememberToken() {
+        return rememberToken;
+    }
+
+    public void setRememberToken(String rememberToken) {
+        this.rememberToken = rememberToken;
     }
 
     @Column(name = "RATING")

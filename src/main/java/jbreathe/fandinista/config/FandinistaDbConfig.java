@@ -51,7 +51,8 @@ public class FandinistaDbConfig {
     public Flyway flyway(DataSource dataSource) {
         Flyway flyway = new Flyway();
         flyway.setDataSource(dataSource);
-        // если надо удалить все миграции, сначала можно вызвать flyway.clean();
+        // если надо удалить все миграции, сначала можно вызвать
+        // flyway.clean();
         flyway.migrate();
         return flyway;
     }
@@ -63,7 +64,8 @@ public class FandinistaDbConfig {
             JpaVendorAdapter jpaVendorAdapter) {
         LocalContainerEntityManagerFactoryBean entityManagerFactory = new LocalContainerEntityManagerFactoryBean();
         entityManagerFactory.setDataSource(dataSource);
-        entityManagerFactory.setPackagesToScan("jbreathe.fandinista");
+        entityManagerFactory.setPackagesToScan("jbreathe.fandinista.entity",
+                "jbreathe.fandinista.dao", "jbreathe.fandinista.controller");
         entityManagerFactory.setJpaVendorAdapter(jpaVendorAdapter);
         Properties jpaProperties = new Properties();
         jpaProperties.setProperty("hibernate.show_sql", "false");
