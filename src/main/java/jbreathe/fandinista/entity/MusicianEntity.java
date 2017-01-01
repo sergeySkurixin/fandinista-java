@@ -13,11 +13,12 @@ public class MusicianEntity {
     private Long id;
     private String name;
     private String passwordDigest;
+    private String rememberToken;
     private Long rating;
     private List<FanEntity> followers;
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     public Long getId() {
         return id;
@@ -43,6 +44,15 @@ public class MusicianEntity {
 
     public void setPasswordDigest(String passwordDigest) {
         this.passwordDigest = passwordDigest;
+    }
+
+    @Column(name = "REMEMBER_TOKEN", nullable = false)
+    public String getRememberToken() {
+        return rememberToken;
+    }
+
+    public void setRememberToken(String rememberToken) {
+        this.rememberToken = rememberToken;
     }
 
     @Column(name = "RATING")

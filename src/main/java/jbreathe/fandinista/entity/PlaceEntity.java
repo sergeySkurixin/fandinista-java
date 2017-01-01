@@ -18,7 +18,7 @@ public class PlaceEntity {
     private List<FanEntity> followers;
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     public Long getId() {
         return id;

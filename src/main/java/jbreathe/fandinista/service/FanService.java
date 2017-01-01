@@ -1,18 +1,7 @@
 package jbreathe.fandinista.service;
 
-import jbreathe.fandinista.dao.FanDao;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import jbreathe.fandinista.dto.Fan;
+import jbreathe.fandinista.service.gen.SimplifiedCrudService;
 
-@Service
-@Transactional
-public class FanService {
-
-    private FanDao fanDao;
-
-    @Autowired
-    public FanService(FanDao fanDao) {
-        this.fanDao = fanDao;
-    }
+public interface FanService extends SimplifiedCrudService<Fan> {
 }

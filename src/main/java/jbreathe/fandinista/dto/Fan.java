@@ -3,7 +3,7 @@ package jbreathe.fandinista.dto;
 import java.util.List;
 
 /**
- * Фанат. Фанат может фаловить музыкантов ({@link Musician}) и места проведения концертов ({@link Stage}).
+ * Фанат. Фанат может фаловить музыкантов ({@link Musician}) и места проведения концертов ({@link Place}).
  */
 public class Fan {
 
@@ -11,8 +11,9 @@ public class Fan {
     private String name;
     private String password;
     private String passwordConfirmation;
+    private String rememberToken;
     private List<Musician> favoriteMusicians;
-    private List<Stage> favoriteStages;
+    private List<Place> favoritePlaces;
 
     public Long getId() {
         return id;
@@ -46,6 +47,14 @@ public class Fan {
         this.passwordConfirmation = passwordConfirmation;
     }
 
+    public String getRememberToken() {
+        return rememberToken;
+    }
+
+    public void setRememberToken(String rememberToken) {
+        this.rememberToken = rememberToken;
+    }
+
     public List<Musician> getFavoriteMusicians() {
         return favoriteMusicians;
     }
@@ -54,11 +63,11 @@ public class Fan {
         this.favoriteMusicians = favoriteMusicians;
     }
 
-    public List<Stage> getFavoriteStages() {
-        return favoriteStages;
+    public List<Place> getFavoritePlaces() {
+        return favoritePlaces;
     }
 
-    public void setFavoriteStages(List<Stage> favoriteStages) {
-        this.favoriteStages = favoriteStages;
+    public void setFavoritePlaces(List<Place> favoritePlaces) {
+        this.favoritePlaces = favoritePlaces;
     }
 }

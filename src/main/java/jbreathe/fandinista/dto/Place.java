@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Место для проведения тусовок. Есть рейтинг, стена с постами... что-то еще?
  */
-public class Stage {
+public class Place {
 
     private Long id;
     private String name;
