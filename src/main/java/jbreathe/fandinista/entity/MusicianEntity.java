@@ -12,6 +12,7 @@ public class MusicianEntity {
 
     private Long id;
     private String name;
+    private String email;
     private String passwordDigest;
     private String rememberToken;
     private Long rating;
@@ -35,6 +36,15 @@ public class MusicianEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Column(name = "EMAIL", nullable = false, unique = true)
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Column(name = "PASSWORD_DIGEST", nullable = false)
@@ -71,5 +81,14 @@ public class MusicianEntity {
 
     public void setFollowers(List<FanEntity> followers) {
         this.followers = followers;
+    }
+
+    @Override
+    public String toString() {
+        return "MusicianEntity{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", rating=" + rating +
+                '}';
     }
 }

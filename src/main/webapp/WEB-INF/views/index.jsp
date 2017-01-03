@@ -10,7 +10,7 @@
 
     <body>
         <nav class="navbar navbar-light bg-faded">
-            <a class="navbar-brand" href="">Fandinista</a>
+            <a class="navbar-brand" href="<c:url value="/"/>">Fandinista</a>
             <form class="form-inline float-xs-right">
                 <ul class="nav navbar-nav">
                     <li class="nav-item"></li>

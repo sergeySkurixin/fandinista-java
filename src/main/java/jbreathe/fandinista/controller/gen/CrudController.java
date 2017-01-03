@@ -1,5 +1,6 @@
 package jbreathe.fandinista.controller.gen;
 
+import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -27,7 +28,7 @@ public interface CrudController<T> {
      * @param dto dto
      * @return страницу с созданной сущностью
      */
-    ModelAndView create(T dto);
+    ModelAndView create(T dto, BindingResult bindingResult);
 
     /**
      * Страница сущности.
@@ -52,7 +53,7 @@ public interface CrudController<T> {
      * @param dto dto
      * @return страницу с измененной сущностью
      */
-    ModelAndView update(Long id, T dto);
+    ModelAndView update(Long id, T dto, BindingResult bindingResult);
 
     /**
      * DELETE-запрос на удаление сущности.

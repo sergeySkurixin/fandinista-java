@@ -5,11 +5,13 @@ import jbreathe.fandinista.dto.Fan;
 import jbreathe.fandinista.service.FanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.util.List;
 
 import static org.springframework.web.bind.annotation.RequestMethod.*;
@@ -42,7 +44,11 @@ public class FanController implements CrudController<Fan> {
 
     @Override
     @RequestMapping(method = POST)
-    public ModelAndView create(@ModelAttribute Fan dto) {
+    public ModelAndView create(@ModelAttribute @Valid Fan dto, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            // затычка
+            return null;
+        }
         Fan saved = service.save(dto);
         ModelAndView modelAndView = new ModelAndView("redirect:/fans/" + saved.getId());
         modelAndView.addObject("fan", saved);
@@ -69,7 +75,14 @@ public class FanController implements CrudController<Fan> {
 
     @Override
     @RequestMapping(value = "/{id}", method = {PATCH, PUT})
-    public ModelAndView update(@PathVariable("id") Long id, @ModelAttribute Fan dto) {
+    public ModelAndView update(
+            @PathVariable("id") Long id,
+            @ModelAttribute @Valid Fan dto,
+            BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            // затычка
+            return null;
+        }
         dto.setId(id);
         Fan updated = service.update(dto);
         ModelAndView modelAndView = new ModelAndView("redirect:/fans/" + id);

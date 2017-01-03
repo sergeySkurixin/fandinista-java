@@ -8,11 +8,17 @@ import java.util.List;
  */
 @Entity
 @Table(name = "FANS")
-@NamedQueries(@NamedQuery(name = "Fans.findAll", query = "select fanEntity from FanEntity fanEntity"))
+@NamedQueries({
+        @NamedQuery(name = "Fans.findAll",
+                query = "select fanEntity from FanEntity fanEntity"),
+        @NamedQuery(name = "Fans.findByEmail",
+                query = "select fanEntity from FanEntity fanEntity where fanEntity.email = :email")
+})
 public class FanEntity {
 
     private Long id;
     private String name;
+    private String email;
     private String passwordDigest;
     private String rememberToken;
     private List<MusicianEntity> favoriteMusicians;
@@ -36,6 +42,15 @@ public class FanEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Column(name = "EMAIL", nullable = false, unique = true)
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Column(name = "PASSWORD_DIGEST", nullable = false)
@@ -76,5 +91,13 @@ public class FanEntity {
 
     public void setFavoriteStages(List<PlaceEntity> favoriteStages) {
         this.favoriteStages = favoriteStages;
+    }
+
+    @Override
+    public String toString() {
+        return "FanEntity{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

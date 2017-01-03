@@ -1,14 +1,21 @@
 package jbreathe.fandinista.dto;
 
+import jbreathe.fandinista.validation.annotations.PasswordMatches;
+import jbreathe.fandinista.validation.annotations.ValidEmail;
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
  * Фанат. Фанат может фаловить музыкантов ({@link Musician}) и места проведения концертов ({@link Place}).
  */
+@PasswordMatches
 public class Fan {
 
     private Long id;
     private String name;
+    private String email;
     private String password;
     private String passwordConfirmation;
     private String rememberToken;
@@ -23,6 +30,8 @@ public class Fan {
         this.id = id;
     }
 
+    @NotNull
+    @NotEmpty
     public String getName() {
         return name;
     }
@@ -31,6 +40,19 @@ public class Fan {
         this.name = name;
     }
 
+    @NotNull
+    @NotEmpty
+    @ValidEmail
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @NotNull
+    @NotEmpty
     public String getPassword() {
         return password;
     }
@@ -39,6 +61,8 @@ public class Fan {
         this.password = password;
     }
 
+    @NotNull
+    @NotEmpty
     public String getPasswordConfirmation() {
         return passwordConfirmation;
     }
@@ -69,5 +93,13 @@ public class Fan {
 
     public void setFavoritePlaces(List<Place> favoritePlaces) {
         this.favoritePlaces = favoritePlaces;
+    }
+
+    @Override
+    public String toString() {
+        return "Fan{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

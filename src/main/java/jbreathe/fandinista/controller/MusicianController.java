@@ -5,6 +5,7 @@ import jbreathe.fandinista.dto.Musician;
 import jbreathe.fandinista.service.MusicianService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,7 +43,7 @@ public class MusicianController implements CrudController<Musician> {
 
     @Override
     @RequestMapping(method = POST)
-    public ModelAndView create(@ModelAttribute Musician dto) {
+    public ModelAndView create(@ModelAttribute Musician dto, BindingResult bindingResult) {
         Musician saved = service.save(dto);
         ModelAndView modelAndView = new ModelAndView("redirect:/musicians/" + saved.getId());
         modelAndView.addObject("musician", saved);
@@ -69,7 +70,10 @@ public class MusicianController implements CrudController<Musician> {
 
     @Override
     @RequestMapping(value = "/{id}", method = {PATCH, PUT})
-    public ModelAndView update(@PathVariable("id") Long id, @ModelAttribute Musician dto) {
+    public ModelAndView update(
+            @PathVariable("id") Long id,
+            @ModelAttribute Musician dto,
+            BindingResult bindingResult) {
         dto.setId(id);
         Musician updated = service.update(dto);
         ModelAndView modelAndView = new ModelAndView("redirect:/musicians/" + id);

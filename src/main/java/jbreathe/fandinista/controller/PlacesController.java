@@ -5,6 +5,7 @@ import jbreathe.fandinista.dto.Place;
 import jbreathe.fandinista.service.PlaceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +18,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.*;
 @Controller
 @RequestMapping("/places")
 public class PlacesController implements CrudController<Place> {
-    
+
     private PlaceService service;
 
     @Autowired
@@ -42,7 +43,7 @@ public class PlacesController implements CrudController<Place> {
 
     @Override
     @RequestMapping(method = POST)
-    public ModelAndView create(@ModelAttribute Place dto) {
+    public ModelAndView create(@ModelAttribute Place dto, BindingResult bindingResult) {
         Place saved = service.save(dto);
         ModelAndView modelAndView = new ModelAndView("redirect:/places/" + saved.getId());
         modelAndView.addObject("place", saved);
@@ -69,7 +70,10 @@ public class PlacesController implements CrudController<Place> {
 
     @Override
     @RequestMapping(value = "/{id}", method = {PATCH, PUT})
-    public ModelAndView update(@PathVariable("id") Long id, @ModelAttribute Place dto) {
+    public ModelAndView update(
+            @PathVariable("id") Long id,
+            @ModelAttribute Place dto,
+            BindingResult bindingResult) {
         dto.setId(id);
         Place updated = service.update(dto);
         ModelAndView modelAndView = new ModelAndView("redirect:/places/" + id);
