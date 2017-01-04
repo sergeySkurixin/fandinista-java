@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Фанат. Фанат может фаловить музыкантов ({@link Musician}) и места проведения концертов ({@link Place}).
  */
-@PasswordMatches
+//@PasswordMatches
 public class Fan {
 
     private Long id;
@@ -42,7 +42,7 @@ public class Fan {
 
     @NotNull
     @NotEmpty
-    @ValidEmail
+//    @ValidEmail
     public String getEmail() {
         return email;
     }
@@ -61,8 +61,8 @@ public class Fan {
         this.password = password;
     }
 
-    @NotNull
-    @NotEmpty
+//    @NotNull
+//    @NotEmpty
     public String getPasswordConfirmation() {
         return passwordConfirmation;
     }
