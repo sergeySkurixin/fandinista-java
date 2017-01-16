@@ -3,7 +3,9 @@ package jbreathe.fandinista.controller;
 import jbreathe.fandinista.controller.gen.CrudController;
 import jbreathe.fandinista.controller.gen.FollowingController;
 import jbreathe.fandinista.dto.Musician;
+import jbreathe.fandinista.dto.Post;
 import jbreathe.fandinista.service.MusicianService;
+import jbreathe.fandinista.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -22,10 +24,12 @@ import static org.springframework.web.bind.annotation.RequestMethod.*;
 public class MusicianController implements CrudController<Musician>, FollowingController<Musician> {
 
     private MusicianService service;
+    private PostService postService;
 
     @Autowired
-    public MusicianController(MusicianService service) {
+    public MusicianController(MusicianService service, PostService postService) {
         this.service = service;
+        this.postService = postService;
     }
 
     @Override
@@ -99,5 +103,26 @@ public class MusicianController implements CrudController<Musician>, FollowingCo
         Musician musician =
                 service.follow(loggedInUsername, idToFollow);
         return new ModelAndView("redirect:/musicians");
+    }
+
+    @RequestMapping(value = "/{id}/posts", method = GET)
+    public ModelAndView showPost(@PathVariable("id") Long id) {
+        return new ModelAndView("posts/show");
+    }
+
+    @RequestMapping(value = "/{id}/posts", method = POST)
+    public ModelAndView createPost(@ModelAttribute Post post, @PathVariable("id") Long id) {
+        Post saved = postService.save(post);
+        return new ModelAndView("redirect:/musicians/" + id);
+    }
+
+    @RequestMapping(value = "/{id}/posts/edit", method = GET)
+    public ModelAndView showEditPost(@PathVariable("id") Long id) {
+        return new ModelAndView("posts/edit");
+    }
+
+    @RequestMapping(value = "/{id}/posts", method = {PATCH, PUT})
+    public ModelAndView editPost(@PathVariable("id") Long id) {
+        return new ModelAndView("redirect:/musicians/" + id);
     }
 }

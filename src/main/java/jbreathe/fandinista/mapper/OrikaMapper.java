@@ -3,9 +3,11 @@ package jbreathe.fandinista.mapper;
 import jbreathe.fandinista.dto.Fan;
 import jbreathe.fandinista.dto.Musician;
 import jbreathe.fandinista.dto.Place;
+import jbreathe.fandinista.dto.Post;
 import jbreathe.fandinista.entity.FanEntity;
 import jbreathe.fandinista.entity.MusicianEntity;
 import jbreathe.fandinista.entity.PlaceEntity;
+import jbreathe.fandinista.entity.PostEntity;
 import ma.glasnost.orika.CustomMapper;
 import ma.glasnost.orika.MapperFacade;
 import ma.glasnost.orika.MapperFactory;
@@ -62,6 +64,9 @@ public class OrikaMapper implements Mapper {
                         placeEntity.setPasswordDigest(passwordDigest);
                     }
                 })
+                .byDefault()
+                .register();
+        mapperFactory.classMap(Post.class, PostEntity.class)
                 .byDefault()
                 .register();
         mapperFacade = mapperFactory.getMapperFacade();

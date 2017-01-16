@@ -7,7 +7,7 @@ import java.util.List;
  * Jpa entity для места проведения концертов.
  */
 @Entity
-@Table(name = "PLACES")
+@Table(name = "places")
 public class PlaceEntity extends UserEntity {
 
     private Long rating;
@@ -21,7 +21,7 @@ public class PlaceEntity extends UserEntity {
         this.rating = rating;
     }
 
-    @Column(name = "RATING")
+    @Column(name = "rating")
     public Long getRating() {
         return rating;
     }
