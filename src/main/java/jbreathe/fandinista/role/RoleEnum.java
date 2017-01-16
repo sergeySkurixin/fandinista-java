@@ -1,8 +1,8 @@
 package jbreathe.fandinista.role;
 
-public enum FanRoleEnum {
+public enum RoleEnum {
     USER, ADMIN, ANONYMOUS;
 
-    FanRoleEnum() {
+    RoleEnum() {
     }
 }

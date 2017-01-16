@@ -18,7 +18,9 @@ import org.springframework.web.servlet.view.JstlView;
 @EnableWebMvc
 @EnableTransactionManagement
 @ComponentScan(basePackages = {"jbreathe.fandinista"},
-        excludeFilters = {@ComponentScan.Filter(type = FilterType.ANNOTATION, value = Configuration.class)})
+        excludeFilters = {@ComponentScan.Filter(
+                type = FilterType.ASSIGNABLE_TYPE, value = FandinistaWebConfig.class
+        )})
 public class FandinistaWebConfig extends WebMvcConfigurerAdapter {
 
     @Override

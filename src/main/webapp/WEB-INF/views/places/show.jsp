@@ -7,5 +7,6 @@
     <body>
         <h1>${place.name}</h1>
         <a href="<c:url value="/places/${place.id}/edit"/>">Edit place</a>
+        <a href="<c:url value="/places/${place.id}/follow"/>">Follow</a>
     </body>
 </html>

@@ -1,6 +1,7 @@
 package jbreathe.fandinista.controller;
 
 import jbreathe.fandinista.controller.gen.CrudController;
+import jbreathe.fandinista.controller.gen.FollowingController;
 import jbreathe.fandinista.dto.Musician;
 import jbreathe.fandinista.service.MusicianService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,13 +12,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.security.Principal;
 import java.util.List;
 
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 @Controller
 @RequestMapping("/musicians")
-public class MusicianController implements CrudController<Musician> {
+public class MusicianController implements CrudController<Musician>, FollowingController<Musician> {
 
     private MusicianService service;
 
@@ -83,7 +85,19 @@ public class MusicianController implements CrudController<Musician> {
 
     @Override
     @RequestMapping(value = "/{id}", method = DELETE)
-    public ModelAndView delete(@PathVariable("id") Long id) {
+    public String delete(@PathVariable("id") Long id) {
+        service.delete(id);
+        // auto logout
+        return "redirect:/logout";
+    }
+
+    @Override
+    @RequestMapping(value = "/{id}/follow")
+    public ModelAndView follow(@PathVariable("id") Long idToFollow, Principal principal) {
+        String loggedInUsername =
+                principal.getName();
+        Musician musician =
+                service.follow(loggedInUsername, idToFollow);
         return new ModelAndView("redirect:/musicians");
     }
 }

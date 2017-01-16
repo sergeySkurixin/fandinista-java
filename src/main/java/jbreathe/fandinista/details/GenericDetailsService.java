@@ -1,8 +1,8 @@
 package jbreathe.fandinista.details;
 
-import jbreathe.fandinista.dao.FanDao;
-import jbreathe.fandinista.entity.FanEntity;
-import jbreathe.fandinista.role.FanRoleEnum;
+import jbreathe.fandinista.dao.UserDao;
+import jbreathe.fandinista.entity.UserEntity;
+import jbreathe.fandinista.role.RoleEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -16,20 +16,20 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Service
-public class FanDetailsService implements UserDetailsService {
+public class GenericDetailsService implements UserDetailsService {
 
-    private FanDao fanDao;
+    private UserDao userDao;
 
     @Autowired
-    public FanDetailsService(FanDao fanDao) {
-        this.fanDao = fanDao;
+    public GenericDetailsService(UserDao userDao) {
+        this.userDao = userDao;
     }
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        FanEntity fanEntity = fanDao.findByEmail(s);
+        UserEntity userEntity = userDao.findByEmail(s);
         Set<GrantedAuthority> roles = new HashSet<>();
-        roles.add(new SimpleGrantedAuthority(FanRoleEnum.USER.name()));
-        return new User(fanEntity.getName(), fanEntity.getPasswordDigest(), roles);
+        roles.add(new SimpleGrantedAuthority(RoleEnum.USER.name()));
+        return new User(userEntity.getEmail(), userEntity.getPasswordDigest(), roles);
     }
 }

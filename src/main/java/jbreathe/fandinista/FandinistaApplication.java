@@ -1,7 +1,5 @@
 package jbreathe.fandinista;
 
-import jbreathe.fandinista.config.FandinistaDbConfig;
-import jbreathe.fandinista.config.FandinistaSecurityConfig;
 import jbreathe.fandinista.config.FandinistaWebConfig;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
@@ -11,7 +9,7 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 public class FandinistaApplication extends AbstractAnnotationConfigDispatcherServletInitializer {
 
     protected Class<?>[] getRootConfigClasses() {
-        return new Class<?>[]{FandinistaDbConfig.class, FandinistaSecurityConfig.class};
+        return new Class<?>[]{};
     }
 
     protected Class<?>[] getServletConfigClasses() {

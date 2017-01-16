@@ -17,18 +17,24 @@ public class FanServiceImpl implements FanService {
 
     private FanDao dao;
     private Mapper mapper;
+    private SecurityService securityService;
 
     @Autowired
-    public FanServiceImpl(FanDao dao, Mapper mapper) {
+    public FanServiceImpl(FanDao dao, Mapper mapper, SecurityService securityService) {
         this.dao = dao;
         this.mapper = mapper;
+        this.securityService = securityService;
     }
 
     @Override
     public Fan save(Fan dto) {
-        dto.setRememberToken(DigestUtils.md5Hex(dto.getName()));
         FanEntity entity = mapper.map(dto, FanEntity.class);
         FanEntity savedEntity = dao.save(entity);
+
+        // auto login new user //
+        securityService.autoLogin(dto.getEmail(), dto.getPassword());
+        /////////////////////////
+
         return mapper.map(savedEntity, Fan.class);
     }
 

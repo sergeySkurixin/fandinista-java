@@ -61,5 +61,5 @@ public interface CrudController<T> {
      * @param id id
      * @return index страницу контроллера
      */
-    ModelAndView delete(Long id);
+    String delete(Long id);
 }

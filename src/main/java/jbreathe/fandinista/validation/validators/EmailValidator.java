@@ -20,12 +20,13 @@ public class EmailValidator implements ConstraintValidator<ValidEmail, String> {
 
     @Override
     public boolean isValid(String email, ConstraintValidatorContext context) {
-        return (validateEmail(email));
+        return validateEmail(email);
     }
 
     private boolean validateEmail(String email) {
         Pattern pattern = Pattern.compile(EMAIL_PATTERN);
         Matcher matcher = pattern.matcher(email);
-        return matcher.matches();
+        boolean matches = matcher.matches();
+        return matches;
     }
 }

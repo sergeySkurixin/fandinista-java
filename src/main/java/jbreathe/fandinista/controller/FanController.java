@@ -92,8 +92,10 @@ public class FanController implements CrudController<Fan> {
 
     @Override
     @RequestMapping(value = "/{id}", method = DELETE)
-    public ModelAndView delete(@PathVariable("id") Long id) {
-        return new ModelAndView("redirect:/fans");
+    public String delete(@PathVariable("id") Long id) {
+        service.delete(id);
+        // auto logout
+        return "redirect:/logout";
     }
 
     // отлавливать javax.persistence.PersistenceException: org.hibernate.exception.ConstraintViolationException

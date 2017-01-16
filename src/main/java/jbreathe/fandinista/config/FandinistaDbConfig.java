@@ -3,16 +3,15 @@ package jbreathe.fandinista.config;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.flywaydb.core.Flyway;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.DependsOn;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.*;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
@@ -36,23 +35,25 @@ public class FandinistaDbConfig {
             @Value("${jdbc.url}") String url,
             @Value("${jdbc.username}") String username,
             @Value("${jdbc.password}") String password,
-            @Value("${jdbc.maxActive}") int maxTotal) {
+            @Value("${jdbc.maxActive}") int initialSize,
+            @Value("${jdbc.initialSize}") int maxTotal
+    ) {
         BasicDataSource dataSource = new BasicDataSource();
         dataSource.setDriverClassName(driverClassName);
         dataSource.setUrl(url);
         dataSource.setUsername(username);
         dataSource.setPassword(password);
+        dataSource.setInitialSize(initialSize);
         dataSource.setMaxTotal(maxTotal);
         return dataSource;
     }
 
-    // Migrations
     @Bean
     public Flyway flyway(DataSource dataSource) {
         Flyway flyway = new Flyway();
         flyway.setDataSource(dataSource);
         // если надо удалить все миграции, сначала можно вызвать
-        // flyway.clean();
+//        flyway.clean();
         flyway.migrate();
         return flyway;
     }
@@ -87,5 +88,10 @@ public class FandinistaDbConfig {
     @Bean
     public PersistenceExceptionTranslationPostProcessor persistenceExceptionTranslationPostProcessor() {
         return new PersistenceExceptionTranslationPostProcessor();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }

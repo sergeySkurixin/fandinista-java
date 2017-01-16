@@ -7,5 +7,6 @@
     <body>
         <h1>${musician.name}</h1>
         <a href="<c:url value="/musicians/${musician.id}/edit"/>">Edit musician</a>
+        <a href="<c:url value="/musicians/${musician.id}/follow"/>">Follow</a>
     </body>
 </html>
