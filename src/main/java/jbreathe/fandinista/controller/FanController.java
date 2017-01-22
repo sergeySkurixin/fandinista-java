@@ -9,9 +9,14 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import static org.springframework.web.bind.annotation.RequestMethod.*;
@@ -19,6 +24,8 @@ import static org.springframework.web.bind.annotation.RequestMethod.*;
 @Controller
 @RequestMapping("/fans")
 public class FanController implements CrudController<Fan> {
+
+    public static final String RESOURCES_IMAGES_FORLDER = "/resources/images/";
 
     private FanService service;
 
@@ -96,6 +103,35 @@ public class FanController implements CrudController<Fan> {
         service.delete(id);
         // auto logout
         return "redirect:/logout";
+    }
+
+    @RequestMapping(value = "/{id}/change-img", method = POST)
+    public String changeImage(@PathVariable("id") Long id,
+                              @RequestParam("avatar") MultipartFile image,
+//                              @ModelAttribute("fan") Fan fan,
+                              HttpServletRequest request) {
+
+        try {
+            byte[] bytes = image.getBytes();
+            String md5 = org.apache.commons.codec.digest.DigestUtils.md5Hex(bytes);
+            String contentType = image.getContentType().split("/")[1];
+            String directory = request.getServletContext()
+                    .getRealPath(RESOURCES_IMAGES_FORLDER);
+            File directoryFile = new File(directory);
+            String path = directory + md5 + "." + contentType;
+
+            File file = new File(path);
+//            boolean exists = file.exists();
+//            boolean newFile = file.createNewFile();
+            image.transferTo(file);
+
+            Fan fan = service.findById(id);
+            fan.setAvatar(md5 + "." + contentType);
+            service.update(fan);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "redirect:/fans/" + id;
     }
 
     // отлавливать javax.persistence.PersistenceException: org.hibernate.exception.ConstraintViolationException

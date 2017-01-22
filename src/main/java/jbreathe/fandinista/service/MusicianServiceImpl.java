@@ -37,7 +37,7 @@ public class MusicianServiceImpl implements MusicianService {
         MusicianEntity savedEntity = dao.save(entity);
 
         // auto login new user //
-        securityService.autoLogin(dto.getEmail(), dto.getPassword());
+//        securityService.autoLogin(dto.getEmail(), dto.getPassword());
         /////////////////////////
 
         return mapper.map(savedEntity, Musician.class);

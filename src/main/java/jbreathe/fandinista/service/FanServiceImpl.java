@@ -32,7 +32,7 @@ public class FanServiceImpl implements FanService {
         FanEntity savedEntity = dao.save(entity);
 
         // auto login new user //
-        securityService.autoLogin(dto.getEmail(), dto.getPassword());
+//        securityService.autoLogin(dto.getEmail(), dto.getPassword());
         /////////////////////////
 
         return mapper.map(savedEntity, Fan.class);

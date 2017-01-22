@@ -14,6 +14,7 @@ public class User {
     private String email;
     private String password;
     private String passwordConfirmation;
+    private String avatar;
 
     public User() {
     }
@@ -29,6 +30,14 @@ public class User {
         this.email = email;
         this.password = password;
         this.passwordConfirmation = passwordConfirmation;
+    }
+
+    public User(String name, String email, String password, String passwordConfirmation, String avatar) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.passwordConfirmation = passwordConfirmation;
+        this.avatar = avatar;
     }
 
     public Long getId() {
@@ -78,5 +87,13 @@ public class User {
 
     public void setPasswordConfirmation(String passwordConfirmation) {
         this.passwordConfirmation = passwordConfirmation;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 }

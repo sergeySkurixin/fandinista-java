@@ -19,6 +19,7 @@ public class UserEntity {
     private String name;
     protected String email;
     private String passwordDigest;
+    private String avatar;
 
     public UserEntity() {
     }
@@ -27,6 +28,13 @@ public class UserEntity {
         this.name = name;
         this.email = email;
         this.passwordDigest = passwordDigest;
+    }
+
+    public UserEntity(String name, String email, String passwordDigest, String avatar) {
+        this.name = name;
+        this.email = email;
+        this.passwordDigest = passwordDigest;
+        this.avatar = avatar;
     }
 
     @Id
@@ -65,5 +73,45 @@ public class UserEntity {
 
     public void setPasswordDigest(String passwordDigest) {
         this.passwordDigest = passwordDigest;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        UserEntity that = (UserEntity) o;
+
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        if (email != null ? !email.equals(that.email) : that.email != null) return false;
+        if (passwordDigest != null ? !passwordDigest.equals(that.passwordDigest) : that.passwordDigest != null)
+            return false;
+        return avatar != null ? avatar.equals(that.avatar) : that.avatar == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (email != null ? email.hashCode() : 0);
+        result = 31 * result + (passwordDigest != null ? passwordDigest.hashCode() : 0);
+        result = 31 * result + (avatar != null ? avatar.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "UserEntity{" +
+                "name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                '}';
     }
 }

@@ -5,11 +5,13 @@
         <title>Fans</title>
     </head>
     <body>
+    <a href="<c:url value="/fans/new"/>">New fan</a>
         <ul>
             <c:forEach items="${fans}" var="fan">
-                <li><a href="<c:url value="/fans/${fan.id}"/>">${fan.name}</a></li>
+                <li>
+                    <a href="<c:url value="/fans/${fan.id}"/>">${fan.name}</a>
+                </li>
             </c:forEach>
         </ul>
-        <a href="<c:url value="/fans/new"/>">New fan</a>
     </body>
 </html>

@@ -129,8 +129,9 @@
             </div>
         </div>
 
-        <spring:url value="/resources/images/rhcp-hyde-park.jpg" var="mainImage"/>
-        <img src="${mainImage}">
+        <%--<spring:url value="/resources/images/rhcp-hyde-park.jpg" var="mainImage"/>--%>
+        <img src="img/rhcp-hyde-park.jpg">
+    <%--<img src="img/deactivated_200.gif"/>--%>
     </body>
 
     <spring:url value="/resources/bower_components/jquery/dist/jquery.min.js" var="jqueryJs"/>
