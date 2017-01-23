@@ -3,6 +3,7 @@ package jbreathe.fandinista.controller;
 import jbreathe.fandinista.controller.gen.CrudController;
 import jbreathe.fandinista.dto.Fan;
 import jbreathe.fandinista.service.FanService;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -25,7 +26,8 @@ import static org.springframework.web.bind.annotation.RequestMethod.*;
 @RequestMapping("/fans")
 public class FanController implements CrudController<Fan> {
 
-    public static final String RESOURCES_IMAGES_FORLDER = "/resources/images/";
+    @Autowired
+    private String resourcesImageFolder;
 
     private FanService service;
 
@@ -113,10 +115,10 @@ public class FanController implements CrudController<Fan> {
 
         try {
             byte[] bytes = image.getBytes();
-            String md5 = org.apache.commons.codec.digest.DigestUtils.md5Hex(bytes);
+            String md5 = DigestUtils.md5Hex(bytes);
             String contentType = image.getContentType().split("/")[1];
             String directory = request.getServletContext()
-                    .getRealPath(RESOURCES_IMAGES_FORLDER);
+                    .getRealPath(resourcesImageFolder);
             File directoryFile = new File(directory);
             String path = directory + md5 + "." + contentType;
 

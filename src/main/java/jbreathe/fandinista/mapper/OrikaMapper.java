@@ -27,57 +27,21 @@ public class OrikaMapper implements Mapper {
 
     private void setupMapper() {
         MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
-//        mapperFactory.classMap(User.class, UserEntity.class)
-//                .customize(new CustomMapper<User, UserEntity>() {
-//                    @Override
-//                    public void mapAtoB(User user, UserEntity userEntity, MappingContext context) {
-//                        String passwordDigest = passwordEncoder.encode(user.getPassword());
-//                        userEntity.setPasswordDigest(passwordDigest);
-//                    }
-//                })
-//                .byDefault()
-//                .register();
-//        mapperFactory.classMap(Fan.class, FanEntity.class)
-//                // customize it like this
-//                //.fieldMap("password", "passwordDigest").converter("fanDtoToEntity").mapNulls(true).mapNullsInReverse(true).add()
-//                // or like this
-//                .customize(new CustomMapper<Fan, FanEntity>() {
-//                    @Override
-//                    public void mapAtoB(Fan fan, FanEntity fanEntity, MappingContext context) {
-//                        String passwordDigest = passwordEncoder.encode(fan.getPassword());
-//                        fanEntity.setPasswordDigest(passwordDigest);
-//                    }
-//                })
-//                .byDefault()
-//                .register();
-//        mapperFactory.classMap(Musician.class, MusicianEntity.class)
-//                .customize(new CustomMapper<Musician, MusicianEntity>() {
-//                    @Override
-//                    public void mapAtoB(Musician musician, MusicianEntity musicianEntity, MappingContext context) {
-//                        String passwordDigest = passwordEncoder.encode(musician.getPassword());
-//                        musicianEntity.setPasswordDigest(passwordDigest);
-//                    }
-//                })
-//                .byDefault()
-//                .register();
-//        mapperFactory.classMap(Place.class, PlaceEntity.class)
-//                .customize(new CustomMapper<Place, PlaceEntity>() {
-//                    @Override
-//                    public void mapAtoB(Place place, PlaceEntity placeEntity, MappingContext context) {
-//                        String passwordDigest = passwordEncoder.encode(place.getPassword());
-//                        placeEntity.setPasswordDigest(passwordDigest);
-//                    }
-//                })
-//                .byDefault()
-//                .register();
-//        mapperFactory.classMap(Post.class, PostEntity.class)
-//                .byDefault()
-//                .register();
 
-        //---------------
         mapperFactory.classMap(User.class, UserEntity.class)
-                .field("password","passwordDigest")
                 .byDefault()
+                .customize(new CustomMapper<User, UserEntity>() {
+                    @Override
+                    public void mapAtoB(User user, UserEntity userEntity, MappingContext context) {
+                        String passwordDigest = passwordEncoder.encode(user.getPassword());
+                        userEntity.setPasswordDigest(passwordDigest);
+                    }
+
+                    @Override
+                    public void mapBtoA(UserEntity userEntity, User user, MappingContext context) {
+                        user.setPassword(userEntity.getPasswordDigest());
+                    }
+                })
                 .register();
         mapperFactory.classMap(Fan.class, FanEntity.class)
                 .use(User.class,UserEntity.class)

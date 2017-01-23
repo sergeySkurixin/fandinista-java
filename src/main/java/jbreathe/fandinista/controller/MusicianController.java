@@ -28,7 +28,8 @@ import static org.springframework.web.bind.annotation.RequestMethod.*;
 @RequestMapping("/musicians")
 public class MusicianController implements CrudController<Musician>, FollowingController<Musician> {
 
-    public static final String RESOURCES_IMAGES_FORLDER = "/resources/images/";
+    @Autowired
+    private String resourcesImageFolder;
 
     private MusicianService service;
     private PostService postService;
@@ -144,7 +145,7 @@ public class MusicianController implements CrudController<Musician>, FollowingCo
             String md5 = org.apache.commons.codec.digest.DigestUtils.md5Hex(bytes);
             String contentType = image.getContentType().split("/")[1];
             String directory = request.getServletContext()
-                    .getRealPath(RESOURCES_IMAGES_FORLDER);
+                    .getRealPath(resourcesImageFolder);
             File directoryFile = new File(directory);
             String path = directory + md5 + "." + contentType;
 

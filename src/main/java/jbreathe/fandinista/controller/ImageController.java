@@ -1,5 +1,6 @@
 package jbreathe.fandinista.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,8 +18,8 @@ import java.nio.file.Files;
 @Controller
 public class ImageController {
 
-
-    public static final String RESOURCES_IMAGES_FORLDER = "/resources/images/";
+    @Autowired
+    private String resourcesImageFolder;
 
     @RequestMapping(value = "/img/{filename}.{extension}", method = RequestMethod.GET)
     public void getImage(@PathVariable(value = "filename", required = false) String filename,
@@ -33,7 +34,7 @@ public class ImageController {
         }
 
         String directory = request.getServletContext()
-                .getRealPath(RESOURCES_IMAGES_FORLDER);
+                .getRealPath(resourcesImageFolder);
         File directoryFile = new File(directory);
         String path = directory + filename + "." + extension;
         file = new File(path);

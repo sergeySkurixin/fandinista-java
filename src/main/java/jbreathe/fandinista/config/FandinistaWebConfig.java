@@ -44,4 +44,9 @@ public class FandinistaWebConfig extends WebMvcConfigurerAdapter {
         resolver.setMaxUploadSize(3000000);
         return resolver;
     }
+
+    @Bean
+    public String resourcesImageFolder(){
+        return "/resources/images/";
+    }
 }
