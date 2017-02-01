@@ -6,7 +6,12 @@ import jbreathe.fandinista.dto.Musician;
 import jbreathe.fandinista.dto.Post;
 import jbreathe.fandinista.service.MusicianService;
 import jbreathe.fandinista.service.PostService;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.jets3t.service.S3Service;
+import org.jets3t.service.S3ServiceException;
+import org.jets3t.service.model.S3Object;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -17,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.security.Principal;
@@ -39,6 +45,12 @@ public class MusicianController implements CrudController<Musician>, FollowingCo
         this.service = service;
         this.postService = postService;
     }
+
+    @Value("${S3_BUCKET}")
+    private String s3bucket;
+
+    @Autowired
+    public S3Service s3Service;
 
     @Override
     @RequestMapping(method = GET)
@@ -138,24 +150,22 @@ public class MusicianController implements CrudController<Musician>, FollowingCo
     public String changeImage(@PathVariable("id") Long id,
                               @RequestParam("avatar") MultipartFile image,
 //                              @ModelAttribute("fan") Fan fan,
-                              HttpServletRequest request) {
+                              HttpServletRequest request) throws S3ServiceException {
 
         try {
             byte[] bytes = image.getBytes();
-            String md5 = org.apache.commons.codec.digest.DigestUtils.md5Hex(bytes);
+            String md5 = DigestUtils.md5Hex(bytes);
             String contentType = image.getContentType().split("/")[1];
-            String directory = request.getServletContext()
-                    .getRealPath(resourcesImageFolder);
-            File directoryFile = new File(directory);
-            String path = directory + md5 + "." + contentType;
+            String imageName = md5 + "." + contentType;
 
-            File file = new File(path);
-//            boolean exists = file.exists();
-//            boolean newFile = file.createNewFile();
-            image.transferTo(file);
+            S3Object s3Object = new S3Object(imageName);
+            s3Object.setDataInputStream(new ByteArrayInputStream(bytes));
+            s3Object.setContentLength(bytes.length);
+            s3Object.setContentType("image/gif");
+            s3Service.putObject(s3bucket, s3Object);
 
             Musician musician = service.findById(id);
-            musician.setAvatar(md5 + "." + contentType);
+            musician.setAvatar(imageName);
             service.update(musician);
         } catch (IOException e) {
             e.printStackTrace();

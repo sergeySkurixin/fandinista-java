@@ -4,7 +4,11 @@ import jbreathe.fandinista.controller.gen.CrudController;
 import jbreathe.fandinista.dto.Fan;
 import jbreathe.fandinista.service.FanService;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.jets3t.service.S3Service;
+import org.jets3t.service.S3ServiceException;
+import org.jets3t.service.model.S3Object;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -16,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -35,6 +40,12 @@ public class FanController implements CrudController<Fan> {
     public FanController(FanService service) {
         this.service = service;
     }
+
+    @Value("${S3_BUCKET}")
+    private String s3bucket;
+
+    @Autowired
+    public S3Service s3Service;
 
     @Override
     @RequestMapping(method = GET)
@@ -111,24 +122,22 @@ public class FanController implements CrudController<Fan> {
     public String changeImage(@PathVariable("id") Long id,
                               @RequestParam("avatar") MultipartFile image,
 //                              @ModelAttribute("fan") Fan fan,
-                              HttpServletRequest request) {
+                              HttpServletRequest request) throws S3ServiceException {
 
         try {
             byte[] bytes = image.getBytes();
             String md5 = DigestUtils.md5Hex(bytes);
             String contentType = image.getContentType().split("/")[1];
-            String directory = request.getServletContext()
-                    .getRealPath(resourcesImageFolder);
-            File directoryFile = new File(directory);
-            String path = directory + md5 + "." + contentType;
+            String imageName = md5 + "." + contentType;
 
-            File file = new File(path);
-//            boolean exists = file.exists();
-//            boolean newFile = file.createNewFile();
-            image.transferTo(file);
+            S3Object s3Object = new S3Object(imageName);
+            s3Object.setDataInputStream(new ByteArrayInputStream(bytes));
+            s3Object.setContentLength(bytes.length);
+            s3Object.setContentType("image/gif");
+            s3Service.putObject(s3bucket, s3Object);
 
             Fan fan = service.findById(id);
-            fan.setAvatar(md5 + "." + contentType);
+            fan.setAvatar(imageName);
             service.update(fan);
         } catch (IOException e) {
             e.printStackTrace();
